@@ -58,9 +58,13 @@ def A3(environment,case):
 	A=environment;A2(A,case)
 	try:
 		B=L.run(A[i],cwd=A[Z],capture_output=R,text=R,input=A[j],encoding=A[k])
-		if B.returncode!=0:C(B.stderr);raise F(f"Program exited with status code {B.returncode}")
+		for D in[B.stdout,B.stderr]:
+			if D:
+				D=D.strip()
+				if D:C(D.strip())
+		if B.returncode!=0:raise F(f"Program exited with status code {B.returncode}")
 		A[l]=B.stdout.strip()
-	except L.CalledProcessError as D:raise F(f"Couldn't run project: {D}")
+	except L.CalledProcessError as E:raise F(f"Couldn't run project: {E}")
 def A4(folder):
 	for(A,G,C)in B.walk(folder):
 		for D in C:
