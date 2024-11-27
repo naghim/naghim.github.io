@@ -58,7 +58,7 @@ AC='q0 q1 q2\n0 1\nq0\nq0 q2\nq0 0 q1\nq0 1 q2\nq1 0 q1\nq1 1 q2\nq2 0 q1\nq2 1 
 AD='s0 s1\n0 1\ns0\ns0\ns0 0 s1\ns0 1 s0\ns1 0 s1\ns1 1 s0'
 AE='q0 q1 q2\na b\nz0 z1\nq0\nz0\nq0\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 E z0 E q0'
 AF='IGEN\nNEM\nNEM\nNEM\nNEM\nNEM'
-AG='q0 q1 q2 q3\na b\nz0 z1\nq0\nz0\nq3\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 b z0 z0z0 q2\nq2 E z0 E q0'
+AG='q0 q1 q2 q3\na b\nz0 z1\nq0\nz0\nq3\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 b z0 z0 q2\nq2 E z0 E q3'
 AH='IGEN\nIGEN\nNEM\nNEM\nNEM'
 AI=[{A:'Problem 1 (DFA - Deterministic Finite Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:v,E:w,I:[l,'10101,111,111110111010101,001,0021']},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:x,E:y,I:[l,'a,aa,abab,bbb,aaaaaaaaaaaab,aaaaabbbbb,aaaabbbbba,c']}]},{A:'Problem 2 (Transforming a Non-Deterministic Finite Automata Into a Deterministic One)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:z,E:A0,I:[S]},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:A1,E:A2,I:[S]},{A:m,D:C.FILE,G:H.TEST_EQUAL,B:A3,E:A4,I:[S]},{A:'Case 4',D:C.FILE,G:H.TEST_EQUAL,B:A5,E:A6,I:[S]}]},{A:'Problem 3 (Minimizing a Finite Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:A7,E:[A8,A9],I:[Z]},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:AA,E:AB,I:[Z]},{A:m,D:C.FILE,G:H.TEST_EQUAL,B:AC,E:AD,I:[Z]}]},{A:'Problem 4 (Stack Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:AE,E:AF,I:[n,'aabb,abb,aab,abab,a,b']},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:AG,E:AH,I:[n,'ab,abb,aaabb,a,b']}]}]
 class K(Exception):0
