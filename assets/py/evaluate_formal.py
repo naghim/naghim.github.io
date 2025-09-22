@@ -1,150 +1,118 @@
-t='package'
-s='language'
-r='stdout'
-q='encoding'
-p='stdin'
-o='command'
-n='--stack'
-m='Case 3'
-l='--check'
-k='s0 s1 s2 s3\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s3\ns1 0 s3\ns1 1 s2\ns2 0 s0\ns2 1 s2\ns3 0 s3\ns3 1 s0'
-g='verify'
-f='prepare'
-e='find'
-d='cwd'
-c='utf-8'
-b='\n'
-a='languageCommand'
-Z='--mini'
-Y=open
-V='setup'
-U=True
-T=None
-S='--det'
-R='Case 2'
-Q='Case 1'
-N='root'
-M='cases'
-J=print
-I='arguments'
-G='testType'
-E='output'
-D='inputType'
-B='input'
-A='name'
-from enum import Enum as W
-import tempfile as X,subprocess as L,multiprocessing as u,copy,sys as O,os as F
-class C(W):FILE=0;CONSOLE=1
-class H(W):TEST_EQUAL=0
-class P(W):PYTHON=0;CPP=1
-v='q0 q1 q2\n0 1\nq0\nq0\nq0 0 q2\nq0 1 q1\nq1 0 q2\nq1 1 q0\nq2 0 q1\nq2 1 q2'
-w='IGEN\nNEM\nIGEN\nIGEN\nNEM'
-x='q0 q1 q2\na b\nq0\nq1 q2\nq0 a q1\nq1 a q1\nq1 b q2\nq2 b q2'
-y='IGEN\nIGEN\nNEM\nNEM\nIGEN\nIGEN\nNEM\nNEM'
-z='q0 q1 q2\n0 1\nq0\nq2\nq0 0 q1\nq0 0 q2\nq0 1 q1\nq1 0 q2\nq1 1 q2'
-A0='s0 s1 s2 s3\n0 1\ns0\ns1 s3\ns0 0 s1\ns0 1 s2\ns1 0 s3\ns1 1 s3\ns2 0 s3\ns2 1 s3'
-A1='q0 q1 q2\n0 1\nq0\nq2\nq0 0 q0\nq0 0 q1\nq0 1 q0\nq0 1 q1\nq1 0 q1\nq1 0 q2\nq1 1 q0\nq1 1 q1\nq1 1 q2\nq2 0 q1'
-A2='s0 s1 s2\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s1\ns1 0 s2\ns1 1 s2\ns2 0 s2\ns2 1 s2'
-A3='q0 q1 q2 q3\n0 1\nq0\nq1 q3\nq0 0 q2\nq0 1 q1\nq1 0 q1\nq1 1 q2\nq1 1 q3\nq2 1 q2\nq3 0 q2\nq3 0 q3\nq3 1 q2'
-A4='s0 s1 s2 s3\n0 1\ns0\ns2 s3\ns0 0 s1\ns0 1 s2\ns1 1 s1\ns2 0 s2\ns2 1 s3\ns3 0 s3\ns3 1 s1'
-A5='q0 q1\n0 1\nq0\nq1\nq0 0 q0\nq0 1 q1\nq1 0 q0\nq1 1 q1'
-A6='s0 s1\n0 1\ns0\ns1\ns0 0 s0\ns0 1 s1\ns1 0 s0\ns1 1 s1'
-A7='q0 q1 q2 q3 q4 q5\n0 1\nq0\nq2\nq0 0 q1\nq0 1 q4\nq1 0 q4\nq1 1 q2\nq2 0 q0\nq2 1 q2\nq3 0 q5\nq3 1 q4\nq4 0 q4\nq4 1 q3\nq5 0 q4\nq5 1 q2'
-A8='s0 s1 s2 s4\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s4\ns1 0 s4\ns1 1 s2\ns2 0 s0\ns2 1 s2\ns4 0 s4\ns4 1 s0'
-A9=k
-AA='q0 q1 q2 q3\n0 1\nq0\nq2\nq0 0 q1\nq0 1 q3\nq1 0 q3\nq1 1 q2\nq2 0 q0\nq2 1 q2\nq3 0 q3\nq3 1 q0'
-AB=k
-AC='q0 q1 q2\n0 1\nq0\nq0 q2\nq0 0 q1\nq0 1 q2\nq1 0 q1\nq1 1 q2\nq2 0 q1\nq2 1 q2'
-AD='s0 s1\n0 1\ns0\ns0\ns0 0 s1\ns0 1 s0\ns1 0 s1\ns1 1 s0'
-AE='q0 q1 q2\na b\nz0 z1\nq0\nz0\nq0\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 E z0 E q0'
-AF='IGEN\nNEM\nNEM\nNEM\nNEM\nNEM'
-AG='q0 q1 q2 q3\na b\nz0 z1\nq0\nz0\nq3\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 b z0 z0 q2\nq2 E z0 E q3'
-AH='IGEN\nIGEN\nNEM\nNEM\nNEM'
-AI=[{A:'Problem 1 (DFA - Deterministic Finite Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:v,E:w,I:[l,'10101,111,111110111010101,001,0021']},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:x,E:y,I:[l,'a,aa,abab,bbb,aaaaaaaaaaaab,aaaaabbbbb,aaaabbbbba,c']}]},{A:'Problem 2 (Transforming a Non-Deterministic Finite Automata Into a Deterministic One)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:z,E:A0,I:[S]},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:A1,E:A2,I:[S]},{A:m,D:C.FILE,G:H.TEST_EQUAL,B:A3,E:A4,I:[S]},{A:'Case 4',D:C.FILE,G:H.TEST_EQUAL,B:A5,E:A6,I:[S]}]},{A:'Problem 3 (Minimizing a Finite Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:A7,E:[A8,A9],I:[Z]},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:AA,E:AB,I:[Z]},{A:m,D:C.FILE,G:H.TEST_EQUAL,B:AC,E:AD,I:[Z]}]},{A:'Problem 4 (Stack Automaton)',M:[{A:Q,D:C.FILE,G:H.TEST_EQUAL,B:AE,E:AF,I:[n,'aabb,abb,aab,abab,a,b']},{A:R,D:C.FILE,G:H.TEST_EQUAL,B:AG,E:AH,I:[n,'ab,abb,aaabb,a,b']}]}]
-class K(Exception):0
-def h():return F.path.join(X._get_default_tempdir(),next(X._get_candidate_names()))
-def AJ(environment,case):
-	F=case;A=environment;G=copy.deepcopy(A[a]);H=F.get(I,[])
-	if F[D]==C.FILE:G.extend(['--input',A[B],'--output',A[E]])
-	if F[D]==C.CONSOLE:J=F[B]+b;K=c
-	else:J=T;K=T
-	if H:G.extend(H)
-	A[o]=G;A[p]=J;A[q]=K
-def AK(environment,case):
-	A=environment;AJ(A,case)
+k='package'
+j='language'
+i='stdout'
+h='encoding'
+g='stdin'
+f='command'
+e='--check'
+d='cases'
+a='verify'
+Z='prepare'
+Y='find'
+X='cwd'
+W='utf-8'
+V='languageCommand'
+U='arguments'
+T=open
+P='setup'
+O=True
+N=None
+M='testType'
+K='root'
+I='output'
+H='inputType'
+E='input'
+D='name'
+B=print
+from enum import Enum as Q
+import tempfile as R,subprocess as F,multiprocessing as l,copy,sys as J,os as A
+class G(Q):FILE=0;CONSOLE=1
+class S(Q):TEST_EQUAL=0
+class L(Q):PYTHON=0;CPP=1
+m='q0 q1 q2\n0 1\nq0\nq0\nq0 0 q2\nq0 1 q1\nq1 0 q2\nq1 1 q0\nq2 0 q1\nq2 1 q2'
+n='IGEN\nNEM\nIGEN\nIGEN\nNEM'
+o='q0 q1 q2\na b\nq0\nq1 q2\nq0 a q1\nq1 a q1\nq1 b q2\nq2 b q2'
+p='IGEN\nIGEN\nNEM\nNEM\nIGEN\nIGEN\nNEM\nNEM'
+q=[{D:'Problem 1 (DFA - Deterministic Finite Automaton)',d:[{D:'Case 1',H:G.FILE,M:S.TEST_EQUAL,E:m,I:n,U:[e,'10101,111,111110111010101,001,0021']},{D:'Case 2',H:G.FILE,M:S.TEST_EQUAL,E:o,I:p,U:[e,'a,aa,abab,bbb,aaaaaaaaaaaab,aaaaabbbbb,aaaabbbbba,c']}]}]
+class C(Exception):0
+def b():return A.path.join(R._get_default_tempdir(),next(R._get_candidate_names()))
+def r(environment,case):
+	B=case;A=environment;C=copy.deepcopy(A[V]);D=B.get(U,[])
+	if B[H]==G.FILE:C.extend(['--input',A[E],'--output',A[I]])
+	if B[H]==G.CONSOLE:F=B[E]+'\n';J=W
+	else:F=N;J=N
+	if D:C.extend(D)
+	A[f]=C;A[g]=F;A[h]=J
+def s(environment,case):
+	A=environment;r(A,case)
 	try:
-		B=L.run(A[o],cwd=A[d],capture_output=U,text=U,input=A[p],encoding=A[q])
-		for C in[B.stdout,B.stderr]:
-			if C:
-				C=C.strip()
-				if C:J(C.strip())
-		if B.returncode!=0:raise K(f"Program exited with status code {B.returncode}")
-		A[r]=B.stdout.strip()
-	except L.CalledProcessError as D:raise K(f"Couldn't run project: {D}")
-def AL(folder):
-	for(A,G,B)in F.walk(folder):
-		for C in B:
-			if C=='__main__.py':D=F.path.dirname(A);E=F.path.basename(A);return{s:P.PYTHON,N:D,t:E}
-def AM(folder):
-	for(A,D,B)in F.walk(folder):
-		for C in B:
-			if C=='CMakeLists.txt':return{s:P.CPP,N:A}
-def AN(folder):
-	for(B,G,C)in F.walk(folder):
+		D=F.run(A[f],cwd=A[X],capture_output=O,text=O,input=A[g],encoding=A[h])
+		if D.returncode!=0:B(J.stderr);raise C(f"Program exited with status code {D.returncode}")
+		A[i]=D.stdout.strip()
+	except F.CalledProcessError as E:raise C(f"Couldn't run project: {E}")
+def t(folder):
+	for(B,G,C)in A.walk(folder):
 		for D in C:
-			A=F.path.join(B,D)
+			if D=='__main__.py':E=A.path.dirname(B);F=A.path.basename(B);return{j:L.PYTHON,K:E,k:F}
+def u(folder):
+	for(B,E,C)in A.walk(folder):
+		for D in C:
+			if D=='CMakeLists.txt':return{j:L.CPP,K:B}
+def v(folder):
+	for(C,G,D)in A.walk(folder):
+		for E in D:
+			B=A.path.join(C,E)
 			try:
-				with Y(A,'rb')as E:
-					if E.read(4)==b'\x7fELF':return A
+				with T(B,'rb')as F:
+					if F.read(4)==b'\x7fELF':return B
 			except:pass
-def AO(environment):A=environment;B=A[t];A[d]=A[N];A[a]=['python3','-m',B]
-def AP(environment):
-	B=environment;A=X.mkdtemp()
-	try:L.run(['cmake','-DCMAKE_BUILD_TYPE=Release',B[N]],cwd=A,check=U)
-	except L.CalledProcessError as D:raise K(f"Could not configure CMake project")
-	try:L.run(['make','-j',str(u.cpu_count())],cwd=A)
-	except L.CalledProcessError as D:raise K(f"Could not build CMake project")
-	C=AN(A)
-	if not C:raise K(f"Couldn't find built executable in CMake project")
-	B[d]=A;B[a]=[C]
-def AQ(case,environment):
-	A=environment;C=h();D=h();A[B]=C;A[E]=D
-	with Y(C,'w',encoding=c)as F:F.write(case[B])
-def AR(case,environment):
-	C=environment;D=C[B];A=C[E]
-	if not F.path.exists(A):raise K(f"Output file not created by program")
-	with Y(A,'r',encoding=c)as H:I=H.read().strip()
-	if not j[case[G]](case,I):raise K(f"Output mismatch: expected different output in file")
-	if F.path.exists(D):F.remove(D)
-	if F.path.exists(A):F.remove(A)
-def AS(case,environment):
-	if not j[case[G]](case,environment[r]):raise K(f"Output mismatch: expected different output on stdout")
-def i(text):return b.join([A.strip()for A in text.strip().split(b)])
-def AT(case,output):B=i(output);A=case[E];C=[A]if isinstance(A,str)else A;return any([i(A)==B for A in C])
-AU={P.PYTHON:{A:'Python',e:AL,f:AO},P.CPP:{A:'CMake (C++)',e:AM,f:AP}}
-AV={C.FILE:{V:AQ,g:AR},C.CONSOLE:{V:T,g:AS}}
-j={H.TEST_EQUAL:AT}
-def AW():
-	P=F.getcwd();B=T
-	for(Q,E)in AU.items():
-		B=E[e](P)
-		if B:break
-	if not B:J("❌ Couldn't find any project in the current folder ❌");O.exit(1)
-	J(f"Found {E[A]} project in {B[N]}")
-	try:E[f](B)
-	except K as G:J(f"❌ Error during build: {G}");O.exit(2)
-	J('Running tests...');I=False
-	for L in AI:
-		J(f"Problem: {L[A]}")
-		for C in L[M]:
-			J(f"Running case: {C[A]}")
+def w(environment):A=environment;B=A[k];A[X]=A[K];A[V]=['python3','-m',B]
+def x(environment):
+	B=environment;A=R.mkdtemp()
+	try:F.run(['cmake','-DCMAKE_BUILD_TYPE=Release',B[K]],cwd=A,check=O)
+	except F.CalledProcessError as E:raise C(f"Could not configure CMake project")
+	try:F.run(['make','-j',str(l.cpu_count())],cwd=A)
+	except F.CalledProcessError as E:raise C(f"Could not build CMake project")
+	D=v(A)
+	if not D:raise C(f"Couldn't find built executable in CMake project")
+	B[X]=A;B[V]=[D]
+def y(case,environment):
+	A=environment;B=b();C=b();A[E]=B;A[I]=C
+	with T(B,'w',encoding=W)as D:D.write(case[E])
+def z(case,environment):
+	D=environment;F=D[E];B=D[I]
+	if not A.path.exists(B):raise C(f"Output file not created by program")
+	with T(B,'r',encoding=W)as G:H=G.read().strip()
+	if not c[case[M]](case,H):raise C(f"Output mismatch: expected different output in file")
+	if A.path.exists(F):A.remove(F)
+	if A.path.exists(B):A.remove(B)
+def A0(case,environment):
+	if not c[case[M]](case,environment[i]):raise C(f"Output mismatch: expected different output on stdout")
+def A1(case,output):return output.strip()==case[I].strip()
+A2={L.PYTHON:{D:'Python',Y:t,Z:w},L.CPP:{D:'CMake (C++)',Y:u,Z:x}}
+A3={G.FILE:{P:y,a:z},G.CONSOLE:{P:N,a:A0}}
+c={S.TEST_EQUAL:A1}
+def A4():
+	R=A.getcwd();E=N
+	for(S,G)in A2.items():
+		E=G[Y](R)
+		if E:break
+	if not E:B("❌ Couldn't find any project in the current folder ❌");J.exit(1)
+	B(f"Found {G[D]} project in {E[K]}")
+	try:G[Z](E)
+	except C as I:B(f"❌ Error during build: {I}");J.exit(2)
+	B('Running tests...');M=False
+	for Q in q:
+		B(f"Problem: {Q[D]}")
+		for F in Q[d]:
+			B(f"Running case: {F[D]}")
 			try:
-				H=AV[C[D]]
-				if H[V]:H[V](C,B)
-				AK(B,C)
-				if C[D]:H[g](C,B)
-			except K as G:J(f"❌ Failed {C[A]}: {G} ❌");I=U;continue
-			J(f"🎉 {C[A]} succeeded 🎉")
-	if I:J('❌ Some tests failed. ❌');O.exit(3)
-	J('🎉 All tests passed! Congratulations! 🎉');O.exit(0)
-if __name__=='__main__':AW()
+				L=A3[F[H]]
+				if L[P]:L[P](F,E)
+				s(E,F)
+				if F[H]:L[a](F,E)
+			except C as I:B(f"❌ Failed {F[D]}: {I} ❌");M=O;continue
+			B(f"🎉 {F[D]} succeeded 🎉")
+	if M:B('❌ Some tests failed. ❌');J.exit(3)
+	B('🎉 All tests passed! Congratulations! 🎉');J.exit(0)
+if __name__=='__main__':A4()
