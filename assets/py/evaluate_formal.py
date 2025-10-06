@@ -1,153 +1,636 @@
-v='package'
-u='language'
-t='stdout'
-s='encoding'
-r='stdin'
-q='command'
-p='--stack'
-o='Case 3'
-n='--check'
-m='s0 s1 s2 s3\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s3\ns1 0 s3\ns1 1 s2\ns2 0 s0\ns2 1 s2\ns3 0 s3\ns3 1 s0'
-i='verify'
-h='prepare'
-g='find'
-f='cwd'
-e='utf-8'
-d='\n'
-c='languageCommand'
-b='--mini'
-a=open
-X='setup'
-W=None
-V='--det'
-U=False
-T='Case 2'
-S='Case 1'
-P='root'
-O=True
-N='cases'
-M='enabled'
-J=print
-I='arguments'
-G='testType'
-E='output'
-D='inputType'
-B='input'
-A='name'
-from enum import Enum as Y
-import tempfile as Z,subprocess as L,multiprocessing as w,copy,sys as Q,os as F
-class C(Y):FILE=0;CONSOLE=1
-class H(Y):TEST_EQUAL=0
-class R(Y):PYTHON=0;CPP=1
-x='q0 q1 q2\n0 1\nq0\nq0\nq0 0 q2\nq0 1 q1\nq1 0 q2\nq1 1 q0\nq2 0 q1\nq2 1 q2'
-y='IGEN\nNEM\nIGEN\nIGEN\nNEM'
-z='q0 q1 q2\na b\nq0\nq1 q2\nq0 a q1\nq1 a q1\nq1 b q2\nq2 b q2'
-A0='IGEN\nIGEN\nNEM\nNEM\nIGEN\nIGEN\nNEM\nNEM'
-A1='q0 q1 q2\n0 1\nq0\nq2\nq0 0 q1\nq0 0 q2\nq0 1 q1\nq1 0 q2\nq1 1 q2'
-A2='s0 s1 s2 s3\n0 1\ns0\ns1 s3\ns0 0 s1\ns0 1 s2\ns1 0 s3\ns1 1 s3\ns2 0 s3\ns2 1 s3'
-A3='q0 q1 q2\n0 1\nq0\nq2\nq0 0 q0\nq0 0 q1\nq0 1 q0\nq0 1 q1\nq1 0 q1\nq1 0 q2\nq1 1 q0\nq1 1 q1\nq1 1 q2\nq2 0 q1'
-A4='s0 s1 s2\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s1\ns1 0 s2\ns1 1 s2\ns2 0 s2\ns2 1 s2'
-A5='q0 q1 q2 q3\n0 1\nq0\nq1 q3\nq0 0 q2\nq0 1 q1\nq1 0 q1\nq1 1 q2\nq1 1 q3\nq2 1 q2\nq3 0 q2\nq3 0 q3\nq3 1 q2'
-A6='s0 s1 s2 s3\n0 1\ns0\ns2 s3\ns0 0 s1\ns0 1 s2\ns1 1 s1\ns2 0 s2\ns2 1 s3\ns3 0 s3\ns3 1 s1'
-A7='q0 q1\n0 1\nq0\nq1\nq0 0 q0\nq0 1 q1\nq1 0 q0\nq1 1 q1'
-A8='s0 s1\n0 1\ns0\ns1\ns0 0 s0\ns0 1 s1\ns1 0 s0\ns1 1 s1'
-A9='q0 q1 q2 q3 q4 q5\n0 1\nq0\nq2\nq0 0 q1\nq0 1 q4\nq1 0 q4\nq1 1 q2\nq2 0 q0\nq2 1 q2\nq3 0 q5\nq3 1 q4\nq4 0 q4\nq4 1 q3\nq5 0 q4\nq5 1 q2'
-AA='s0 s1 s2 s4\n0 1\ns0\ns2\ns0 0 s1\ns0 1 s4\ns1 0 s4\ns1 1 s2\ns2 0 s0\ns2 1 s2\ns4 0 s4\ns4 1 s0'
-AB=m
-AC='q0 q1 q2 q3\n0 1\nq0\nq2\nq0 0 q1\nq0 1 q3\nq1 0 q3\nq1 1 q2\nq2 0 q0\nq2 1 q2\nq3 0 q3\nq3 1 q0'
-AD=m
-AE='q0 q1 q2\n0 1\nq0\nq0 q2\nq0 0 q1\nq0 1 q2\nq1 0 q1\nq1 1 q2\nq2 0 q1\nq2 1 q2'
-AF='s0 s1\n0 1\ns0\ns0\ns0 0 s1\ns0 1 s0\ns1 0 s1\ns1 1 s0'
-AG='q0 q1 q2\na b\nz0 z1\nq0\nz0\nq0\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 E z0 E q0'
-AH='IGEN\nNEM\nNEM\nNEM\nNEM\nNEM'
-AI='q0 q1 q2 q3\na b\nz0 z1\nq0\nz0\nq3\nq0 a z0 z0z1 q1\nq1 a z1 z1z1 q1\nq1 b z1 E q2\nq2 b z1 E q2\nq2 b z0 z0z0 q2\nq2 E z0 E q0'
-AJ='IGEN\nIGEN\nNEM\nNEM\nNEM'
-AK=[{A:'Problem 1 (DFA - Deterministic Finite Automaton)',M:O,N:[{A:S,D:C.FILE,G:H.TEST_EQUAL,B:x,E:y,I:[n,'10101,111,111110111010101,001,0021']},{A:T,D:C.FILE,G:H.TEST_EQUAL,B:z,E:A0,I:[n,'a,aa,abab,bbb,aaaaaaaaaaaab,aaaaabbbbb,aaaabbbbba,c']}]},{A:'Problem 2 (Transforming a Non-Deterministic Finite Automata Into a Deterministic One)',M:U,N:[{A:S,D:C.FILE,G:H.TEST_EQUAL,B:A1,E:A2,I:[V]},{A:T,D:C.FILE,G:H.TEST_EQUAL,B:A3,E:A4,I:[V]},{A:o,D:C.FILE,G:H.TEST_EQUAL,B:A5,E:A6,I:[V]},{A:'Case 4',D:C.FILE,G:H.TEST_EQUAL,B:A7,E:A8,I:[V]}]},{A:'Problem 3 (Minimizing a Finite Automaton)',M:U,N:[{A:S,D:C.FILE,G:H.TEST_EQUAL,B:A9,E:[AA,AB],I:[b]},{A:T,D:C.FILE,G:H.TEST_EQUAL,B:AC,E:AD,I:[b]},{A:o,D:C.FILE,G:H.TEST_EQUAL,B:AE,E:AF,I:[b]}]},{A:'Problem 4 (Stack Automaton)',M:U,N:[{A:S,D:C.FILE,G:H.TEST_EQUAL,B:AG,E:AH,I:[p,'aabb,abb,aab,abab,a,b']},{A:T,D:C.FILE,G:H.TEST_EQUAL,B:AI,E:AJ,I:[p,'ab,abb,aaabb,a,b']}]}]
-class K(Exception):0
-def j():return F.path.join(Z._get_default_tempdir(),next(Z._get_candidate_names()))
-def AL(environment,case):
-	F=case;A=environment;G=copy.deepcopy(A[c]);H=F.get(I,[])
-	if F[D]==C.FILE:G.extend(['--input',A[B],'--output',A[E]])
-	if F[D]==C.CONSOLE:J=F[B]+d;K=e
-	else:J=W;K=W
-	if H:G.extend(H)
-	A[q]=G;A[r]=J;A[s]=K
-def AM(environment,case):
-	A=environment;AL(A,case)
-	try:
-		B=L.run(A[q],cwd=A[f],capture_output=O,text=O,input=A[r],encoding=A[s])
-		for C in[B.stdout,B.stderr]:
-			if C:
-				C=C.strip()
-				if C:J(C.strip())
-		if B.returncode!=0:raise K(f"Program exited with status code {B.returncode}")
-		A[t]=B.stdout.strip()
-	except L.CalledProcessError as D:raise K(f"Couldn't run project: {D}")
-def AN(folder):
-	for(A,G,B)in F.walk(folder):
-		for C in B:
-			if C=='__main__.py':D=F.path.dirname(A);E=F.path.basename(A);return{u:R.PYTHON,P:D,v:E}
-def AO(folder):
-	for(A,D,B)in F.walk(folder):
-		for C in B:
-			if C=='CMakeLists.txt':return{u:R.CPP,P:A}
-def AP(folder):
-	for(B,G,C)in F.walk(folder):
-		for D in C:
-			A=F.path.join(B,D)
-			try:
-				with a(A,'rb')as E:
-					if E.read(4)==b'\x7fELF':return A
-			except:pass
-def AQ(environment):A=environment;B=A[v];A[f]=A[P];A[c]=['python3','-m',B]
-def AR(environment):
-	B=environment;A=Z.mkdtemp()
-	try:L.run(['cmake','-DCMAKE_BUILD_TYPE=Release',B[P]],cwd=A,check=O)
-	except L.CalledProcessError as D:raise K(f"Could not configure CMake project")
-	try:L.run(['make','-j',str(w.cpu_count())],cwd=A)
-	except L.CalledProcessError as D:raise K(f"Could not build CMake project")
-	C=AP(A)
-	if not C:raise K(f"Couldn't find built executable in CMake project")
-	B[f]=A;B[c]=[C]
-def AS(case,environment):
-	A=environment;C=j();D=j();A[B]=C;A[E]=D
-	with a(C,'w',encoding=e)as F:F.write(case[B])
-def AT(case,environment):
-	C=environment;D=C[B];A=C[E]
-	if not F.path.exists(A):raise K(f"Output file not created by program")
-	with a(A,'r',encoding=e)as H:I=H.read().strip()
-	if not l[case[G]](case,I):raise K(f"Output mismatch: expected different output in file")
-	if F.path.exists(D):F.remove(D)
-	if F.path.exists(A):F.remove(A)
-def AU(case,environment):
-	if not l[case[G]](case,environment[t]):raise K(f"Output mismatch: expected different output on stdout")
-def k(text):return d.join([A.strip()for A in text.strip().split(d)])
-def AV(case,output):B=k(output);A=case[E];C=[A]if isinstance(A,str)else A;return any([k(A)==B for A in C])
-AW={R.PYTHON:{A:'Python',g:AN,h:AQ},R.CPP:{A:'CMake (C++)',g:AO,h:AR}}
-AX={C.FILE:{X:AS,i:AT},C.CONSOLE:{X:W,i:AU}}
-l={H.TEST_EQUAL:AV}
-def AY():
-	R=F.getcwd();B=W
-	for(S,E)in AW.items():
-		B=E[g](R)
-		if B:break
-	if not B:J("❌ Couldn't find any project in the current folder ❌");Q.exit(1)
-	J(f"Found {E[A]} project in {B[P]}")
-	try:E[h](B)
-	except K as G:J(f"❌ Error during build: {G}");Q.exit(2)
-	J('Running tests...');L=U
-	for H in AK:
-		if not H[M]:continue
-		J(f"Problem: {H[A]}")
-		for C in H[N]:
-			J(f"Running case: {C[A]}")
-			try:
-				I=AX[C[D]]
-				if I[X]:I[X](C,B)
-				AM(B,C)
-				if C[D]:I[i](C,B)
-			except K as G:J(f"❌ Failed {C[A]}: {G} ❌");L=O;continue
-			J(f"🎉 {C[A]} succeeded 🎉")
-	if L:J('❌ Some tests failed. ❌');Q.exit(3)
-	J('🎉 All tests passed! Congratulations! 🎉');Q.exit(0)
-if __name__=='__main__':AY()
+from enum import Enum
+import tempfile
+import subprocess
+import multiprocessing
+import copy
+import sys
+import os
+
+### ENUMS ###
+class InputType(Enum):
+    FILE = 0
+    CONSOLE = 1
+
+class TestType(Enum):
+    TEST_EQUAL = 0
+
+class LanguageType(Enum):
+    PYTHON = 0
+    CPP = 1
+
+### PROBLEMS ###
+
+## Problem 1 ##
+P1_CASE_1_INPUT = """q0 q1 q2
+0 1
+q0
+q0
+q0 0 q2
+q0 1 q1
+q1 0 q2
+q1 1 q0
+q2 0 q1
+q2 1 q2"""
+
+P1_CASE_1_OUTPUT = """IGEN
+NEM
+IGEN
+IGEN
+NEM"""
+
+P1_CASE_2_INPUT = """q0 q1 q2
+a b
+q0
+q1 q2
+q0 a q1
+q1 a q1
+q1 b q2
+q2 b q2"""
+
+P1_CASE_2_OUTPUT = """IGEN
+IGEN
+NEM
+NEM
+IGEN
+IGEN
+NEM
+NEM"""
+
+## Problem 2 ##
+P2_CASE_1_INPUT = """q0 q1 q2
+0 1
+q0
+q2
+q0 0 q1
+q0 0 q2
+q0 1 q1
+q1 0 q2
+q1 1 q2"""
+
+P2_CASE_1_OUTPUT = """s0 s1 s2 s3
+0 1
+s0
+s1 s3
+s0 0 s1
+s0 1 s2
+s1 0 s3
+s1 1 s3
+s2 0 s3
+s2 1 s3"""
+
+P2_CASE_2_INPUT = """q0 q1 q2
+0 1
+q0
+q2
+q0 0 q0
+q0 0 q1
+q0 1 q0
+q0 1 q1
+q1 0 q1
+q1 0 q2
+q1 1 q0
+q1 1 q1
+q1 1 q2
+q2 0 q1"""
+
+P2_CASE_2_OUTPUT = """s0 s1 s2
+0 1
+s0
+s2
+s0 0 s1
+s0 1 s1
+s1 0 s2
+s1 1 s2
+s2 0 s2
+s2 1 s2"""
+
+P2_CASE_3_INPUT = """q0 q1 q2 q3
+0 1
+q0
+q1 q3
+q0 0 q2
+q0 1 q1
+q1 0 q1
+q1 1 q2
+q1 1 q3
+q2 1 q2
+q3 0 q2
+q3 0 q3
+q3 1 q2"""
+
+P2_CASE_3_OUTPUT = """s0 s1 s2 s3
+0 1
+s0
+s2 s3
+s0 0 s1
+s0 1 s2
+s1 1 s1
+s2 0 s2
+s2 1 s3
+s3 0 s3
+s3 1 s1"""
+
+P2_CASE_4_INPUT = """q0 q1
+0 1
+q0
+q1
+q0 0 q0
+q0 1 q1
+q1 0 q0
+q1 1 q1"""
+
+P2_CASE_4_OUTPUT = """s0 s1
+0 1
+s0
+s1
+s0 0 s0
+s0 1 s1
+s1 0 s0
+s1 1 s1"""
+
+P3_CASE_1_INPUT = """q0 q1 q2 q3 q4 q5
+0 1
+q0
+q2
+q0 0 q1
+q0 1 q4
+q1 0 q4
+q1 1 q2
+q2 0 q0
+q2 1 q2
+q3 0 q5
+q3 1 q4
+q4 0 q4
+q4 1 q3
+q5 0 q4
+q5 1 q2"""
+
+P3_CASE_1_OUTPUT_1 = """s0 s1 s2 s4
+0 1
+s0
+s2
+s0 0 s1
+s0 1 s4
+s1 0 s4
+s1 1 s2
+s2 0 s0
+s2 1 s2
+s4 0 s4
+s4 1 s0"""
+
+P3_CASE_1_OUTPUT_2 = """s0 s1 s2 s3
+0 1
+s0
+s2
+s0 0 s1
+s0 1 s3
+s1 0 s3
+s1 1 s2
+s2 0 s0
+s2 1 s2
+s3 0 s3
+s3 1 s0"""
+
+P3_CASE_2_INPUT = """q0 q1 q2 q3
+0 1
+q0
+q2
+q0 0 q1
+q0 1 q3
+q1 0 q3
+q1 1 q2
+q2 0 q0
+q2 1 q2
+q3 0 q3
+q3 1 q0"""
+
+P3_CASE_2_OUTPUT = """s0 s1 s2 s3
+0 1
+s0
+s2
+s0 0 s1
+s0 1 s3
+s1 0 s3
+s1 1 s2
+s2 0 s0
+s2 1 s2
+s3 0 s3
+s3 1 s0"""
+
+P3_CASE_3_INPUT = """q0 q1 q2
+0 1
+q0
+q0 q2
+q0 0 q1
+q0 1 q2
+q1 0 q1
+q1 1 q2
+q2 0 q1
+q2 1 q2"""
+
+P3_CASE_3_OUTPUT = """s0 s1
+0 1
+s0
+s0
+s0 0 s1
+s0 1 s0
+s1 0 s1
+s1 1 s0"""
+
+P4_CASE_1_INPUT = """q0 q1 q2
+a b
+z0 z1
+q0
+z0
+q0
+q0 a z0 z0z1 q1
+q1 a z1 z1z1 q1
+q1 b z1 E q2
+q2 b z1 E q2
+q2 E z0 E q0"""
+
+P4_CASE_1_OUTPUT = """IGEN
+NEM
+NEM
+NEM
+NEM
+NEM"""
+
+P4_CASE_2_INPUT = """q0 q1 q2 q3
+a b
+z0 z1
+q0
+z0
+q3
+q0 a z0 z0z1 q1
+q1 a z1 z1z1 q1
+q1 b z1 E q2
+q2 b z1 E q2
+q2 b z0 z0z0 q2
+q2 E z0 E q0"""
+
+P4_CASE_2_OUTPUT = """IGEN
+IGEN
+NEM
+NEM
+NEM"""
+
+problems = [
+    {
+        'name': 'Problem 1 (DFA - Deterministic Finite Automaton)',
+        'enabled': True,
+        'cases': [
+            {
+                'name': 'Case 1',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P1_CASE_1_INPUT,
+                'output': P1_CASE_1_OUTPUT,
+                'arguments': ['--check', '10101,111,111110111010101,001,0021']
+            },
+            {
+                'name': 'Case 2',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P1_CASE_2_INPUT,
+                'output': P1_CASE_2_OUTPUT,
+                'arguments': ['--check', 'a,aa,abab,bbb,aaaaaaaaaaaab,aaaaabbbbb,aaaabbbbba,c']
+            }
+        ]
+    },
+    {
+        'name': 'Problem 2 (Transforming a Non-Deterministic Finite Automata Into a Deterministic One)',
+        'enabled': True,
+        'cases': [
+            {
+                'name': 'Case 1',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P2_CASE_1_INPUT,
+                'output': P2_CASE_1_OUTPUT,
+                'arguments': ['--det']
+            },
+            {
+                'name': 'Case 2',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P2_CASE_2_INPUT,
+                'output': P2_CASE_2_OUTPUT,
+                'arguments': ['--det']
+            },
+            {
+                'name': 'Case 3',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P2_CASE_3_INPUT,
+                'output': P2_CASE_3_OUTPUT,
+                'arguments': ['--det']
+            },
+            {
+                'name': 'Case 4',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P2_CASE_4_INPUT,
+                'output': P2_CASE_4_OUTPUT,
+                'arguments': ['--det']
+            }
+        ]
+    },
+    {
+        'name': 'Problem 3 (Minimizing a Finite Automaton)',
+        'enabled': False,
+        'cases': [
+            {
+                'name': 'Case 1',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P3_CASE_1_INPUT,
+                'output': [P3_CASE_1_OUTPUT_1, P3_CASE_1_OUTPUT_2],
+                'arguments': ['--mini']
+            },
+            {
+                'name': 'Case 2',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P3_CASE_2_INPUT,
+                'output': P3_CASE_2_OUTPUT,
+                'arguments': ['--mini']
+            },
+            {
+                'name': 'Case 3',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P3_CASE_3_INPUT,
+                'output': P3_CASE_3_OUTPUT,
+                'arguments': ['--mini']
+            }
+        ]
+    },
+    {
+        'name': 'Problem 4 (Stack Automaton)',
+        'enabled': False,
+        'cases': [
+            {
+                'name': 'Case 1',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P4_CASE_1_INPUT,
+                'output': P4_CASE_1_OUTPUT,
+                'arguments': ['--stack', 'aabb,abb,aab,abab,a,b']
+            },
+            {
+                'name': 'Case 2',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P4_CASE_2_INPUT,
+                'output': P4_CASE_2_OUTPUT,
+                'arguments': ['--stack', 'ab,abb,aaabb,a,b']
+            }
+        ]
+    }
+]
+
+class AutograderException(Exception):
+    pass
+
+def get_random_filename():
+    return os.path.join(tempfile._get_default_tempdir(), next(tempfile._get_candidate_names()))
+
+def create_arguments(environment, case):
+    command = copy.deepcopy(environment['languageCommand'])
+    arguments = case.get('arguments', [])
+
+    # Pass input and output filename to the program
+    if case['inputType'] == InputType.FILE:
+        command.extend(['--input', environment['input'], '--output', environment['output']])    
+
+    # Pass stdin to the program
+    if case['inputType'] == InputType.CONSOLE:
+        stdin = case['input'] + '\n'
+        encoding = 'utf-8'
+    else:
+        stdin = None
+        encoding = None
+
+    if arguments:
+        command.extend(arguments)
+
+    environment['command'] = command
+    environment['stdin'] = stdin
+    environment['encoding'] = encoding
+
+def run_program(environment, case):
+    create_arguments(environment, case)
+
+    try:
+        # We need the output, so capture_output=True, and we need the output as text, so text=True
+        # We also need to check if the process was successful, so check=True
+        process = subprocess.run(environment['command'], cwd=environment['cwd'], capture_output=True, text=True, input=environment['stdin'], encoding=environment['encoding'])
+
+        for val in [process.stdout, process.stderr]:
+            if val:
+                val = val.strip()
+                if val:
+                    print(val.strip())
+
+        if process.returncode != 0:
+            raise AutograderException(f"Program exited with status code {process.returncode}")
+
+        environment['stdout'] = process.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        raise AutograderException(f"Couldn't run project: {e}")
+
+### LANGUAGE-SPECIFIC CODE ###
+def find_python_package(folder: str) -> dict:
+    for root, _, files in os.walk(folder):
+        for file in files:
+            if file == '__main__.py':
+                root_folder = os.path.dirname(root)
+                package = os.path.basename(root)
+                return {'language': LanguageType.PYTHON, 'root': root_folder, 'package': package}
+
+    return None
+
+def find_cmake_folder(folder: str) -> dict:
+    for root, _, files in os.walk(folder):
+        for file in files:
+            if file == 'CMakeLists.txt':
+                return {'language': LanguageType.CPP, 'root': root}
+
+    return None
+
+def find_executable(folder: str) -> str:
+    for root, _, files in os.walk(folder):
+        for file in files:
+            filename = os.path.join(root, file)
+
+            try:
+                with open(filename, 'rb') as f:
+                    if f.read(4) == b'\x7fELF':
+                        return filename
+            except:
+                # Could not read this file, forget about it
+                pass
+
+    return None
+
+def prepare_python_code(environment):
+    package_name = environment['package']
+    environment['cwd'] = environment['root']
+    environment['languageCommand'] = ['python3', '-m', package_name]
+
+def prepare_cpp_code(environment):
+    build_folder = tempfile.mkdtemp()
+
+    try:
+        subprocess.run(['cmake', '-DCMAKE_BUILD_TYPE=Release', environment['root']], cwd=build_folder, check=True)
+    except subprocess.CalledProcessError as e:
+        raise AutograderException(f'Could not configure CMake project')
+
+    try:
+        subprocess.run(['make', '-j', str(multiprocessing.cpu_count())], cwd=build_folder)
+    except subprocess.CalledProcessError as e:
+        raise AutograderException(f'Could not build CMake project')
+    
+    executable = find_executable(build_folder)
+
+    if not executable:
+        raise AutograderException(f"Couldn't find built executable in CMake project")
+
+    environment['cwd'] = build_folder
+    environment['languageCommand'] = [executable]
+
+### INPUT-SPECIFIC CODE ###
+def setup_input_file(case, environment):
+    input_file = get_random_filename()
+    output_file = get_random_filename()
+
+    environment['input'] = input_file
+    environment['output'] = output_file
+
+    with open(input_file, 'w', encoding='utf-8') as f:
+        f.write(case['input'])
+
+def verify_input_file(case, environment):
+    input_file = environment['input']
+    output_file = environment['output']
+
+    if not os.path.exists(output_file):
+        raise AutograderException(f"Output file not created by program")
+
+    with open(output_file, 'r', encoding='utf-8') as f:
+        output = f.read().strip()
+
+    if not tests[case['testType']](case, output):
+        raise AutograderException(f"Output mismatch: expected different output in file")
+
+    if os.path.exists(input_file):
+        os.remove(input_file)
+
+    if os.path.exists(output_file):
+        os.remove(output_file)
+
+def verify_stdout(case, environment):
+    if not tests[case['testType']](case, environment['stdout']):
+        raise AutograderException(f"Output mismatch: expected different output on stdout")
+
+### TEST-SPECIFIC CODE###
+def strip_lines(text):
+    return '\n'.join([line.strip() for line in text.strip().split('\n')])
+
+def test_equal(case, output):
+    actual_output = strip_lines(output)
+    expected_output = case['output']
+    expected_outputs = [expected_output] if isinstance(expected_output, str) else expected_output
+
+    return any([strip_lines(o) == actual_output for o in expected_outputs])
+
+### MAIN CODE ###
+languages = {
+    LanguageType.PYTHON: {
+        'name': 'Python',
+        'find': find_python_package,
+        'prepare': prepare_python_code,
+    },
+    LanguageType.CPP: {
+        'name': 'CMake (C++)',
+        'find': find_cmake_folder,
+        'prepare': prepare_cpp_code
+    }
+}
+
+inputs = {
+    InputType.FILE: {
+        'setup': setup_input_file,
+        'verify': verify_input_file
+    },
+    InputType.CONSOLE: {
+        'setup': None,
+        'verify': verify_stdout
+    }
+}
+
+tests = {
+    TestType.TEST_EQUAL: test_equal
+}
+
+def run_all_cases():
+    folder = os.getcwd()
+    environment = None
+
+    for language, language_info in languages.items():
+        environment = language_info['find'](folder)
+
+        if environment:
+            break
+
+    if not environment:
+        print("❌ Couldn't find any project in the current folder ❌")
+        sys.exit(1)
+
+    print(f"Found {language_info['name']} project in {environment['root']}")
+
+    try:
+        language_info['prepare'](environment)
+    except AutograderException as e:
+        print(f"❌ Error during build: {e}")
+        sys.exit(2)
+
+    print("Running tests...")
+    failed = False
+
+    for problem in problems:
+        if not problem['enabled']:
+            continue
+
+        print(f"Problem: {problem['name']}")
+
+        for case in problem['cases']:
+            print(f"Running case: {case['name']}")
+
+            try:
+                input_type = inputs[case['inputType']]
+                
+                if input_type['setup']:
+                    input_type['setup'](case, environment)
+
+                run_program(environment, case)
+
+                if case['inputType']:
+                    input_type['verify'](case, environment)
+            except AutograderException as e:
+                print(f"❌ Failed {case['name']}: {e} ❌")
+                failed = True
+                continue
+
+            print(f"🎉 {case['name']} succeeded 🎉")
+    
+    if failed:
+        print("❌ Some tests failed. ❌")
+        sys.exit(3)
+
+    print("🎉 All tests passed! Congratulations! 🎉")
+    sys.exit(0)
+
+if __name__ == "__main__":
+    run_all_cases()
