@@ -148,7 +148,76 @@ s0 1 s1
 s1 0 s0
 s1 1 s1"""
 
-P3_CASE_1_INPUT = """q0 q1 q2 q3 q4 q5
+P3_CASE_1_INPUT = """q0 q1 q2
+0 1 E
+q0
+q2
+q0 0 q1
+q0 E q1
+q1 0 q2
+q1 1 q2
+q1 E q2
+q2 0 q2
+q2 1 q2"""
+
+P3_CASE_1_OUTPUT = """q0 q1 q2
+0 1
+q0
+q0 q1 q2
+q0 0 q1
+q0 0 q2
+q0 1 q2
+q1 0 q2
+q1 1 q2
+q2 0 q2
+q2 1 q2"""
+
+P3_CASE_2_INPUT = """q0 q1 q2 q3
+0 1 E
+q0
+q3
+q0 0 q1
+q1 1 q2
+q1 E q3
+q2 0 q2
+q2 1 q3
+q3 0 q3
+q3 1 q3"""
+
+P3_CASE_2_OUTPUT = """q0 q1 q2 q3
+0 1
+q0
+q1 q3
+q0 0 q1
+q1 0 q3
+q1 1 q2
+q1 1 q3
+q2 0 q2
+q2 1 q3
+q3 0 q3
+q3 1 q3"""
+
+P3_CASE_3_INPUT = """q0 q1 q2
+0 1 2 E
+q0
+q0
+q0 1 q1
+q1 0 q1
+q1 1 q1
+q1 E q2
+q2 2 q0"""
+
+P3_CASE_3_OUTPUT = """q0 q1 q2
+0 1 2
+q0
+q0
+q0 1 q1
+q1 0 q1
+q1 1 q1
+q1 2 q0
+q2 2 q0"""
+
+P4_CASE_1_INPUT = """q0 q1 q2 q3 q4 q5
 0 1
 q0
 q2
@@ -165,7 +234,7 @@ q4 1 q3
 q5 0 q4
 q5 1 q2"""
 
-P3_CASE_1_OUTPUT_1 = """s0 s1 s2 s4
+P4_CASE_1_OUTPUT_1 = """s0 s1 s2 s4
 0 1
 s0
 s2
@@ -178,7 +247,7 @@ s2 1 s2
 s4 0 s4
 s4 1 s0"""
 
-P3_CASE_1_OUTPUT_2 = """s0 s1 s2 s3
+P4_CASE_1_OUTPUT_2 = """s0 s1 s2 s3
 0 1
 s0
 s2
@@ -191,7 +260,7 @@ s2 1 s2
 s3 0 s3
 s3 1 s0"""
 
-P3_CASE_2_INPUT = """q0 q1 q2 q3
+P4_CASE_2_INPUT = """q0 q1 q2 q3
 0 1
 q0
 q2
@@ -204,7 +273,7 @@ q2 1 q2
 q3 0 q3
 q3 1 q0"""
 
-P3_CASE_2_OUTPUT = """s0 s1 s2 s3
+P4_CASE_2_OUTPUT = """s0 s1 s2 s3
 0 1
 s0
 s2
@@ -217,7 +286,7 @@ s2 1 s2
 s3 0 s3
 s3 1 s0"""
 
-P3_CASE_3_INPUT = """q0 q1 q2
+P4_CASE_3_INPUT = """q0 q1 q2
 0 1
 q0
 q0 q2
@@ -228,7 +297,7 @@ q1 1 q2
 q2 0 q1
 q2 1 q2"""
 
-P3_CASE_3_OUTPUT = """s0 s1
+P4_CASE_3_OUTPUT = """s0 s1
 0 1
 s0
 s0
@@ -237,7 +306,7 @@ s0 1 s0
 s1 0 s1
 s1 1 s0"""
 
-P4_CASE_1_INPUT = """q0 q1 q2
+P5_CASE_1_INPUT = """q0 q1 q2
 a b
 z0 z1
 q0
@@ -249,14 +318,14 @@ q1 b z1 E q2
 q2 b z1 E q2
 q2 E z0 E q0"""
 
-P4_CASE_1_OUTPUT = """IGEN
+P5_CASE_1_OUTPUT = """IGEN
 NEM
 NEM
 NEM
 NEM
 NEM"""
 
-P4_CASE_2_INPUT = """q0 q1 q2 q3
+P5_CASE_2_INPUT = """q0 q1 q2 q3
 a b
 z0 z1
 q0
@@ -269,7 +338,7 @@ q2 b z1 E q2
 q2 b z0 z0z0 q2
 q2 E z0 E q0"""
 
-P4_CASE_2_OUTPUT = """IGEN
+P5_CASE_2_OUTPUT = """IGEN
 IGEN
 NEM
 NEM
@@ -337,16 +406,16 @@ problems = [
         ]
     },
     {
-        'name': 'Problem 3 (Minimizing a Finite Automaton)',
-        'enabled': False,
+        'name': 'Problem 3 (Epsilon-Transitions Removal)',
+        'enabled': True,
         'cases': [
             {
                 'name': 'Case 1',
                 'inputType': InputType.FILE,
                 'testType': TestType.TEST_EQUAL,
                 'input': P3_CASE_1_INPUT,
-                'output': [P3_CASE_1_OUTPUT_1, P3_CASE_1_OUTPUT_2],
-                'arguments': ['--mini']
+                'output': P3_CASE_1_OUTPUT,
+                'arguments': ['--eps']
             },
             {
                 'name': 'Case 2',
@@ -354,7 +423,7 @@ problems = [
                 'testType': TestType.TEST_EQUAL,
                 'input': P3_CASE_2_INPUT,
                 'output': P3_CASE_2_OUTPUT,
-                'arguments': ['--mini']
+                'arguments': ['--eps']
             },
             {
                 'name': 'Case 3',
@@ -362,12 +431,12 @@ problems = [
                 'testType': TestType.TEST_EQUAL,
                 'input': P3_CASE_3_INPUT,
                 'output': P3_CASE_3_OUTPUT,
-                'arguments': ['--mini']
+                'arguments': ['--eps']
             }
         ]
     },
     {
-        'name': 'Problem 4 (Stack Automaton)',
+        'name': 'Problem 4 (Minimizing a Finite Automaton)',
         'enabled': False,
         'cases': [
             {
@@ -375,8 +444,8 @@ problems = [
                 'inputType': InputType.FILE,
                 'testType': TestType.TEST_EQUAL,
                 'input': P4_CASE_1_INPUT,
-                'output': P4_CASE_1_OUTPUT,
-                'arguments': ['--stack', 'aabb,abb,aab,abab,a,b']
+                'output': [P4_CASE_1_OUTPUT_1, P4_CASE_1_OUTPUT_2],
+                'arguments': ['--mini']
             },
             {
                 'name': 'Case 2',
@@ -384,6 +453,36 @@ problems = [
                 'testType': TestType.TEST_EQUAL,
                 'input': P4_CASE_2_INPUT,
                 'output': P4_CASE_2_OUTPUT,
+                'arguments': ['--mini']
+            },
+            {
+                'name': 'Case 3',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P4_CASE_3_INPUT,
+                'output': P4_CASE_3_OUTPUT,
+                'arguments': ['--mini']
+            }
+        ]
+    },
+    {
+        'name': 'Problem 5 (Stack Automaton)',
+        'enabled': False,
+        'cases': [
+            {
+                'name': 'Case 1',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P5_CASE_1_INPUT,
+                'output': P5_CASE_1_OUTPUT,
+                'arguments': ['--stack', 'aabb,abb,aab,abab,a,b']
+            },
+            {
+                'name': 'Case 2',
+                'inputType': InputType.FILE,
+                'testType': TestType.TEST_EQUAL,
+                'input': P5_CASE_2_INPUT,
+                'output': P5_CASE_2_OUTPUT,
                 'arguments': ['--stack', 'ab,abb,aaabb,a,b']
             }
         ]
